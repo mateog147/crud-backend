@@ -39,4 +39,11 @@ public class UsuarioServiceTest {
         List<UsuarioModel> usuarioModelList=(List<UsuarioModel>) usuarioRepository.findAll();
         assertThat(usuarioModelList).size().isGreaterThan(0);
     }
+
+    @Test
+    public void testBuscarUsuarioPorEmail(){
+        String emailBuscado="mateo@mail.com";
+        List<UsuarioModel> usuarioModelBuscado=usuarioRepository.findByEmail(emailBuscado);
+        assertThat(usuarioModelBuscado.get(0).getEmail()).isEqualTo(emailBuscado);
+    }
 }

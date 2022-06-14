@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class UsuarioService {
@@ -30,11 +31,28 @@ public class UsuarioService {
         return usuarioRepository.findByPrioridad(prioridad);
     }
 
+    public ArrayList<UsuarioModel>  obtenerPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
     public boolean eliminarUsuario(Long id) {
         try{
             usuarioRepository.deleteById(id);
             return true;
         }catch(Exception err){
+            return false;
+        }
+    }
+
+    public boolean eliminarPorEmail(String email) {
+        Logger logger = Logger.getLogger("logger");
+        try{
+            ArrayList<UsuarioModel> users = usuarioRepository.findByEmail(email);
+            UsuarioModel user = users.get(0);
+            usuarioRepository.deleteById(user.getId());
+            return true;
+        }catch(Exception err){
+            logger.warning(err.getMessage());
             return false;
         }
     }

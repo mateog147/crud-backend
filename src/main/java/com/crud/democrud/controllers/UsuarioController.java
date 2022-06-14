@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @CrossOrigin
 @RestController
@@ -45,4 +46,24 @@ public class UsuarioController {
         }
     }
 
+
+    @GetMapping("/email")
+    public ArrayList<UsuarioModel> obtenerUsuarioPorPrioridad(@RequestParam("email") String email) {
+       return this.usuarioService.obtenerPorEmail(email);
+    }
+
+    @DeleteMapping(path = "/email")
+    public String eliminarPorEmail(@RequestParam("email") String email) {
+        Logger logger = Logger.getLogger("logger");
+        boolean ok = this.usuarioService.eliminarPorEmail(email);
+        logger.info(email);
+        if (ok) {
+
+            logger.info("Elimnado");
+            return "Se eliminó el usuario con email " + email;
+        } else {
+            logger.info("No eliminado");
+            return "No pudo eliminar el usuario con email" + email;
+        }
+    }
 }
